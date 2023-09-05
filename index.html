@@ -55,13 +55,13 @@
             <div class="search-icon">
               <i class="fa-solid fa-magnifying-glass"></i>
             </div>
-            <input class="search-input" type="text" />
+            <input class="search-input" type="text" v-model="searchQuery" />
           </div>
         </div>
         <!-- CONTACTS LIST -->
         <ul class="contacts-list">
           <li
-            v-for="(contact, index) in contacts"
+            v-for="(contact, index) in filteredContacts"
             :key="index"
             class="contact"
             @click="setActiveProfile(index)"
@@ -104,7 +104,10 @@
             :key="messageIndex"
             :class="message.status"
           >
-            {{ message.message }}
+            <div class="message-content">
+              <span>{{ message.message }}</span>
+              <small class="message-time">{{ message.date }}</small>
+            </div>
           </div>
         </section>
         <footer class="user-actions">

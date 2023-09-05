@@ -165,18 +165,61 @@ const contacts = [
 ];
 
 console.log(contacts);
-const app = Vue.createApp({
+
+const { createApp } = Vue;
+
+createApp({
   data() {
     return {
       contacts,
       activeProfile: 0,
+      newMessage: "",
+      searchQuery: "",
     };
   },
+
+  computed: {
+    filteredContacts() {
+      const query = this.searchQuery.toLowerCase();
+      return this.contacts.filter((contact) =>
+        contact.name.toLowerCase().includes(query)
+      );
+    },
+  },
+
   methods: {
     setActiveProfile(index) {
       this.activeProfile = index;
     },
-  },
-});
+    sendMessage() {
+      if (this.newMessage.trim() === "") {
+        return; // Non inviare messaggi vuoti
+      }
 
-app.mount("#app");
+      // Aggiungi il messaggio all'elenco dei messaggi del contatto attivo
+      this.contacts[this.activeProfile].messages.push({
+        date: new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+        message: this.newMessage,
+        status: "sent",
+      });
+
+      // Pulisci l'input
+      this.newMessage = "";
+
+      // Simula una risposta dopo 1 secondo
+      setTimeout(() => {
+        this.contacts[this.activeProfile].messages.push({
+          date: new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+          message: "Ok,va bene",
+          status: "received",
+        });
+      }, 1000);
+    },
+  },
+}).mount("#app");
