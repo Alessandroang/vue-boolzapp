@@ -175,6 +175,67 @@ createApp({
       activeProfile: 0,
       newMessage: "",
       searchQuery: "",
+      showEmoticons: false, // Aggiunto stato per mostrare/nascondere emoticons
+
+      selectedEmoticon: "", // Stato per memorizzare l'emoticon selezionata
+      emoticons: [
+        "😀",
+        "😃",
+        "😄",
+        "😁",
+        "😆",
+        "😅",
+        "😂",
+        "🤣",
+        "😊",
+        "😇",
+        "🙂",
+        "🙃",
+        "😉",
+        "😌",
+        "😍",
+        "🥰",
+        "😎",
+        "🤓",
+        "🧐",
+        "😏",
+        "😒",
+        "😞",
+        "😔",
+        "😕",
+        "🙁",
+        "😣",
+        "😖",
+        "😫",
+        "😩",
+        "🥺",
+        "😢",
+        "😭",
+        "😤",
+        "😠",
+        "😡",
+        "🤬",
+        "🤯",
+        "😳",
+        "🥴",
+        "😵",
+        "😲",
+        "🤪",
+        "😨",
+        "😰",
+        "😢",
+        "😥",
+        "😪",
+        "😓",
+        "😩",
+        "🤤",
+        "😬",
+        "🤢",
+        "🤮",
+        "🤧",
+        "😷",
+        "🤒",
+      ], // Array di emoticon
     };
   },
 
@@ -188,6 +249,17 @@ createApp({
   },
 
   methods: {
+    toggleEmoticons() {
+      this.showEmoticons = !this.showEmoticons;
+    },
+
+    selectEmoticon(emoticon) {
+      // Aggiunge l'emoticon selezionata al messaggio
+      this.newMessage += emoticon;
+
+      // Nasconde l'elenco delle emoticon
+      this.showEmoticons = false;
+    },
     setActiveProfile(index) {
       this.activeProfile = index;
     },
@@ -220,6 +292,12 @@ createApp({
           status: "received",
         });
       }, 1000);
+    },
+    searchContacts() {
+      const query = this.searchQuery.toLowerCase();
+      return this.contacts.filter((contact) =>
+        contact.name.toLowerCase().includes(query)
+      );
     },
   },
 }).mount("#app");
